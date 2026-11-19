@@ -22,15 +22,23 @@ function isListItem(token: Token): boolean {
   return !!token && token.type === "list_item_open";
 }
 
+// The enclosing list of a checkbox item may already have been converted by an
+// earlier iteration (when it holds several checkbox items), so both the plain
+// and the converted token types are matched. Otherwise the search would skip
+// past the enclosing list and convert a preceding sibling list instead.
 function isListOpen(token: Token): boolean {
   return (
-    token.type === "bullet_list_open" || token.type === "ordered_list_open"
+    token.type === "bullet_list_open" ||
+    token.type === "ordered_list_open" ||
+    token.type === "checkbox_list_open"
   );
 }
 
 function isListClose(token: Token): boolean {
   return (
-    token.type === "bullet_list_close" || token.type === "ordered_list_close"
+    token.type === "bullet_list_close" ||
+    token.type === "ordered_list_close" ||
+    token.type === "checkbox_list_close"
   );
 }
 
